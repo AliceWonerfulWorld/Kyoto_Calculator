@@ -1,0 +1,1304 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Serif JP', 'Hiragino Mincho Pro', 'Yu Mincho', serif;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 248, 220, 0.8) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 239, 213, 0.6) 0%, transparent 50%),
+        linear-gradient(135deg, #fef7e0 0%, #f5e6d3 25%, #ede0c8 50%, #e6d5b8 75%, #ddd0a8 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* 和紙のテクスチャ効果 */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 1px 1px, rgba(0,0,0,0.02) 1px, transparent 0);
+    background-size: 20px 20px;
+    pointer-events: none;
+}
+
+/* 格子模様の装飾 */
+body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(90deg, rgba(139, 69, 19, 0.03) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(139, 69, 19, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+.calculator {
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(252, 248, 240, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 40px 32px;
+    box-shadow: 
+        0 20px 60px rgba(139, 69, 19, 0.15),
+        0 8px 20px rgba(139, 69, 19, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(139, 69, 19, 0.1);
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    max-width: 450px;
+    width: 100%;
+    position: relative;
+}
+
+/* 漆器風の枠装飾 */
+.calculator::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(135deg, 
+        rgba(139, 69, 19, 0.3) 0%, 
+        rgba(160, 82, 45, 0.2) 25%,
+        rgba(139, 69, 19, 0.4) 50%,
+        rgba(101, 67, 33, 0.3) 75%,
+        rgba(139, 69, 19, 0.2) 100%);
+    border-radius: 12px;
+    z-index: -1;
+}
+
+/* 竹の装飾要素 */
+.calculator::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 12px;
+    height: 40px;
+    background: linear-gradient(90deg, 
+        rgba(101, 67, 33, 0.4) 0%,
+        rgba(139, 69, 19, 0.6) 20%,
+        rgba(101, 67, 33, 0.4) 40%,
+        rgba(139, 69, 19, 0.6) 60%,
+        rgba(101, 67, 33, 0.4) 80%,
+        rgba(139, 69, 19, 0.6) 100%);
+    border-radius: 6px;
+    opacity: 0.7;
+}
+
+.display {
+    background: 
+        linear-gradient(135deg, #f8f6f0 0%, #f0ede5 30%, #e8e0d5 70%, #e0d8c8 100%);
+    border-radius: 8px;
+    padding: 32px 28px;
+    margin-bottom: 32px;
+    text-align: right;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 3px solid rgba(139, 69, 19, 0.2);
+    box-shadow: 
+        0 8px 24px rgba(139, 69, 19, 0.1),
+        inset 0 6px 12px rgba(139, 69, 19, 0.06),
+        inset 0 2px 4px rgba(139, 69, 19, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 和紙の質感をディスプレイに追加 */
+.display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 2px 2px, rgba(0,0,0,0.015) 1px, transparent 0),
+        linear-gradient(45deg, rgba(139, 69, 19, 0.02) 1px, transparent 1px);
+    background-size: 18px 18px, 12px 12px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* 算盤の枠を表現 */
+.display::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 2px solid rgba(139, 69, 19, 0.15);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* 計算履歴表示エリア */
+.display .previous {
+    color: #8b4513;
+    font-size: 18px;
+    margin-bottom: 12px;
+    min-height: 24px;
+    opacity: 0.9;
+    font-weight: 400;
+    font-family: 'Noto Sans JP', sans-serif;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.display .previous::before {
+    content: '履歴';
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    background: #f8f6f0;
+    color: #8b4513;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+    font-weight: 300;
+}
+
+/* 現在の計算結果表示エリア */
+.display .current {
+    color: #2c1810;
+    font-size: 48px;
+    font-weight: 600;
+    word-wrap: break-word;
+    word-break: break-all;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px 20px;
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(248, 246, 240, 0.6) 100%);
+    border-radius: 6px;
+    border: 2px solid rgba(139, 69, 19, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* 結果表示エリアの装飾 */
+.display .current::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 1px solid rgba(139, 69, 19, 0.08);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* 算盤の玉を表現する装飾点 */
+.display .current::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, rgba(196, 30, 58, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* ホバー効果 */
+.display:hover .previous {
+    background: rgba(255, 255, 255, 0.5);
+    border-color: rgba(139, 69, 19, 0.15);
+}
+
+.display:hover .current {
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(248, 246, 240, 0.7) 100%);
+    border-color: rgba(139, 69, 19, 0.15);
+}
+
+/* アニメーション効果 */
+.display .current.animate {
+    animation: resultAppear 0.5s ease-out;
+}
+
+@keyframes resultAppear {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.btn {
+    background: 
+        linear-gradient(135deg, #ffffff 0%, #f8f6f0 50%, #f0ede5 100%);
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-radius: 6px;
+    color: #2c1810;
+    font-size: 20px;
+    font-weight: 500;
+    height: 72px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 8px rgba(139, 69, 19, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* 竹の質感をボタンに追加 */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(90deg, 
+            transparent 0%,
+            rgba(139, 69, 19, 0.05) 20%,
+            transparent 40%,
+            rgba(139, 69, 19, 0.05) 60%,
+            transparent 80%,
+            rgba(139, 69, 19, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn:hover {
+    background: 
+        linear-gradient(135deg, #f8f6f0 0%, #f0ede5 50%, #e8e0d5 100%);
+    border-color: rgba(139, 69, 19, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 16px rgba(139, 69, 19, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.btn:hover::before {
+    opacity: 1;
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 2px 4px rgba(139, 69, 19, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.btn.operator {
+    background: 
+        linear-gradient(135deg, #d4c4b0 0%, #c4b5a0 50%, #b8a690 100%);
+    color: #2c1810;
+    border-color: rgba(139, 69, 19, 0.25);
+    box-shadow: 
+        0 4px 8px rgba(139, 69, 19, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.btn.operator:hover {
+    background: 
+        linear-gradient(135deg, #c4b5a0 0%, #b8a690 50%, #ac9a80 100%);
+    border-color: rgba(139, 69, 19, 0.35);
+}
+
+.btn.equals {
+    background: 
+        linear-gradient(135deg, #c41e3a 0%, #a0172e 50%, #8b1538 100%);
+    color: #ffffff;
+    border-color: rgba(196, 30, 58, 0.4);
+    box-shadow: 
+        0 4px 8px rgba(196, 30, 58, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn.equals:hover {
+    background: 
+        linear-gradient(135deg, #a0172e 0%, #8b1538 50%, #7a1232 100%);
+    border-color: rgba(196, 30, 58, 0.5);
+}
+
+.btn.clear {
+    background: 
+        linear-gradient(135deg, #8b4513 0%, #7a3f0f 50%, #6b3929 100%);
+    color: #ffffff;
+    border-color: rgba(139, 69, 19, 0.4);
+    box-shadow: 
+        0 4px 8px rgba(139, 69, 19, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn.clear:hover {
+    background: 
+        linear-gradient(135deg, #7a3f0f 0%, #6b3929 50%, #5c2f1f 100%);
+    border-color: rgba(139, 69, 19, 0.5);
+}
+
+.btn.span-2 {
+    grid-column: span 2;
+}
+
+.title {
+    text-align: center;
+    color: #2c1810;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    letter-spacing: 4px;
+    position: relative;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 伝統的な装飾線 */
+.title::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(139, 69, 19, 0.3) 20%, 
+        rgba(196, 30, 58, 0.4) 50%, 
+        rgba(139, 69, 19, 0.3) 80%, 
+        transparent 100%);
+    z-index: -1;
+}
+
+.title::after {
+    content: '算';
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    font-size: 16px;
+    color: rgba(139, 69, 19, 0.6);
+    font-weight: 300;
+}
+
+/* 伝統的な装飾パターン */
+.calculator .decoration {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    background: 
+        radial-gradient(circle, rgba(196, 30, 58, 0.3) 2px, transparent 2px);
+    background-size: 8px 8px;
+    opacity: 0.5;
+}
+
+.calculator .decoration::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: 
+        radial-gradient(circle, rgba(139, 69, 19, 0.3) 2px, transparent 2px);
+    background-size: 8px 8px;
+}
+
+/* 季節表示エリア */
+.season-display {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(248, 246, 240, 0.5) 100%);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+    text-align: center;
+}
+
+.season-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.season-text {
+    color: #8b4513;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Noto Serif JP', serif;
+}
+
+.date-text {
+    color: #2c1810;
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* 俳句結果表示 */
+.haiku-result {
+    color: #8b4513;
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Noto Serif JP', serif;
+    text-align: center;
+    margin-top: 8px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+    min-height: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.haiku-result.show {
+    opacity: 1;
+}
+
+/* モード選択ボタン */
+.mode-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.mode-btn {
+    background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-radius: 6px;
+    color: #2c1810;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.mode-btn:hover {
+    background: linear-gradient(135deg, #f0ede5 0%, #e8e0d5 100%);
+    border-color: rgba(139, 69, 19, 0.3);
+}
+
+.mode-btn.active {
+    background: linear-gradient(135deg, #8b7355 0%, #7a6348 100%);
+    color: #ffffff;
+    border-color: rgba(139, 69, 19, 0.4);
+}
+
+/* 京都モード専用ボタン */
+.kyoto-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.kyoto-btn {
+    background: linear-gradient(135deg, #d4c4b0 0%, #c4b5a0 100%);
+    border: 2px solid rgba(139, 69, 19, 0.25);
+    border-radius: 6px;
+    color: #2c1810;
+    font-size: 14px;
+    font-weight: 400;
+    height: 48px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.kyoto-btn:hover {
+    background: linear-gradient(135deg, #c4b5a0 0%, #b8a690 100%);
+    border-color: rgba(139, 69, 19, 0.35);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+    .calculator {
+        padding: 32px 24px;
+        margin: 10px;
+    }
+    
+    .btn {
+        height: 64px;
+        font-size: 18px;
+    }
+    
+    .display .current {
+        font-size: 36px;
+    }
+    
+    .title {
+        font-size: 28px;
+        letter-spacing: 3px;
+    }
+}
+
+.btn:focus {
+    outline: 3px solid rgba(196, 30, 58, 0.4);
+    outline-offset: 2px;
+}
+
+/* ミニゲーム用スタイル */
+.minigame-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 248, 220, 0.9) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 239, 213, 0.8) 0%, transparent 50%),
+        linear-gradient(135deg, #fef7e0 0%, #f5e6d3 25%, #ede0c8 50%, #e6d5b8 75%, #ddd0a8 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.minigame-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.minigame-title {
+    color: #2c1810;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Noto Serif JP', serif;
+}
+
+.minigame-subtitle {
+    color: #8b4513;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.minigame-content {
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(252, 248, 240, 0.9) 100%);
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 
+        0 20px 60px rgba(139, 69, 19, 0.15),
+        0 8px 20px rgba(139, 69, 19, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    max-width: 600px;
+    width: 100%;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.minigame-controls {
+    text-align: center;
+}
+
+.minigame-btn {
+    background: 
+        linear-gradient(135deg, #8b7355 0%, #7a6348 100%);
+    border: 2px solid rgba(139, 69, 19, 0.4);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.minigame-btn:hover {
+    background: 
+        linear-gradient(135deg, #7a6348 0%, #6b5539 100%);
+    border-color: rgba(139, 69, 19, 0.5);
+    transform: translateY(-2px);
+}
+
+/* 算盤ゲーム用スタイル */
+.abacus-game h3 {
+    color: #2c1810;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Noto Serif JP', serif;
+}
+
+.abacus-display {
+    background: 
+        linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    text-align: center;
+}
+
+.abacus-beads {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.abacus-bead {
+    width: 20px;
+    height: 20px;
+    background: #d4c4b0;
+    border-radius: 50%;
+    border: 2px solid rgba(139, 69, 19, 0.3);
+    transition: all 0.3s ease;
+}
+
+.abacus-bead.active {
+    background: 
+        linear-gradient(135deg, #c41e3a 0%, #a0172e 100%);
+    border-color: rgba(196, 30, 58, 0.5);
+    transform: scale(1.1);
+}
+
+.game-input {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.game-input input {
+    padding: 8px 12px;
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.game-input button {
+    background: 
+        linear-gradient(135deg, #d4c4b0 0%, #c4b5a0 100%);
+    border: 2px solid rgba(139, 69, 19, 0.25);
+    border-radius: 6px;
+    color: #2c1810;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.game-input button:hover {
+    background: 
+        linear-gradient(135deg, #c4b5a0 0%, #b8a690 100%);
+}
+
+.game-score {
+    text-align: center;
+    color: #8b4513;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.game-score p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+/* 俳句ゲーム用スタイル */
+.haiku-game h3 {
+    color: #2c1810;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Noto Serif JP', serif;
+}
+
+.haiku-words {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.haiku-word {
+    background: 
+        linear-gradient(135deg, #d4c4b0 0%, #c4b5a0 100%);
+    border: 2px solid rgba(139, 69, 19, 0.25);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #2c1810;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.haiku-input {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.haiku-input textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Noto Serif JP', serif;
+    background: rgba(255, 255, 255, 0.8);
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+.haiku-input button {
+    background: 
+        linear-gradient(135deg, #c41e3a 0%, #a0172e 100%);
+    border: 2px solid rgba(196, 30, 58, 0.4);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.haiku-input button:hover {
+    background: 
+        linear-gradient(135deg, #a0172e 0%, #8b1538 100%);
+}
+
+.haiku-example {
+    text-align: center;
+    color: #8b4513;
+    font-style: italic;
+    font-family: 'Noto Serif JP', serif;
+}
+
+/* クイズゲーム用スタイル */
+.quiz-game h3 {
+    color: #2c1810;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Noto Serif JP', serif;
+}
+
+.quiz-progress {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #8b4513;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.quiz-progress p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.quiz-question h4 {
+    color: #2c1810;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Noto Serif JP', serif;
+}
+
+.quiz-options {
+    display: grid;
+    gap: 10px;
+}
+
+.quiz-option {
+    background: 
+        linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-radius: 8px;
+    color: #2c1810;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+    text-align: left;
+}
+
+.quiz-option:hover {
+    background: 
+        linear-gradient(135deg, #f0ede5 0%, #e8e0d5 100%);
+    border-color: rgba(139, 69, 19, 0.3);
+    transform: translateY(-1px);
+}
+
+/* 季節ゲーム用スタイル */
+.season-game h3 {
+    color: #2c1810;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Noto Serif JP', serif;
+}
+
+.season-words {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.season-word {
+    background: 
+        linear-gradient(135deg, #d4c4b0 0%, #c4b5a0 100%);
+    border: 2px solid rgba(139, 69, 19, 0.25);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #2c1810;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.season-input {
+    text-align: center;
+}
+
+.season-input select {
+    padding: 8px 12px;
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: rgba(255, 255, 255, 0.8);
+    margin-right: 10px;
+}
+
+.season-input button {
+    background: 
+        linear-gradient(135deg, #c41e3a 0%, #a0172e 100%);
+    border: 2px solid rgba(196, 30, 58, 0.4);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.season-input button:hover {
+    background: 
+        linear-gradient(135deg, #a0172e 0%, #8b1538 100%);
+}
+
+/* ゲーム結果表示 */
+.game-result {
+    text-align: center;
+    color: #2c1810;
+    font-family: 'Noto Serif JP', serif;
+}
+
+.game-result h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #8b4513;
+}
+
+.game-result p {
+    font-size: 18px;
+    margin: 10px 0;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ミニゲームアニメーション */
+@keyframes minigameFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes minigameSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes minigameBounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes abacusBeadAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(180deg);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.2) rotate(90deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes abacusBeadActive {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes haikuWordFloat {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-5px) rotate(1deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-5px) rotate(-1deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@keyframes quizOptionHover {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        transform: translateY(-3px) scale(1.02);
+    }
+}
+
+@keyframes seasonWordPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(196, 30, 58, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 8px rgba(196, 30, 58, 0.1);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(196, 30, 58, 0);
+    }
+}
+
+@keyframes scoreUpdate {
+    0% {
+        transform: scale(1);
+        color: #8b4513;
+    }
+    50% {
+        transform: scale(1.2);
+        color: #c41e3a;
+    }
+    100% {
+        transform: scale(1);
+        color: #8b4513;
+    }
+}
+
+@keyframes correctAnswer {
+    0% {
+        transform: scale(1);
+        background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+    }
+    50% {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, #d4f4dd 0%, #c8e6d1 100%);
+    }
+    100% {
+        transform: scale(1);
+        background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+    }
+}
+
+@keyframes wrongAnswer {
+    0% {
+        transform: translateX(0);
+        background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+    }
+    25% {
+        transform: translateX(-5px);
+        background: linear-gradient(135deg, #f4d4d4 0%, #e6c8c8 100%);
+    }
+    75% {
+        transform: translateX(5px);
+        background: linear-gradient(135deg, #f4d4d4 0%, #e6c8c8 100%);
+    }
+    100% {
+        transform: translateX(0);
+        background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
+    }
+}
+
+@keyframes gameResultAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(30px);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05) translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ミニゲームコンテナのアニメーション（重複を避けるため削除） */
+
+/* 算盤ゲームのアニメーション */
+.abacus-bead {
+    animation: abacusBeadAppear 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.abacus-bead:nth-child(1) { animation-delay: 0.1s; }
+.abacus-bead:nth-child(2) { animation-delay: 0.15s; }
+.abacus-bead:nth-child(3) { animation-delay: 0.2s; }
+.abacus-bead:nth-child(4) { animation-delay: 0.25s; }
+.abacus-bead:nth-child(5) { animation-delay: 0.3s; }
+.abacus-bead:nth-child(6) { animation-delay: 0.35s; }
+.abacus-bead:nth-child(7) { animation-delay: 0.4s; }
+.abacus-bead:nth-child(8) { animation-delay: 0.45s; }
+.abacus-bead:nth-child(9) { animation-delay: 0.5s; }
+.abacus-bead:nth-child(10) { animation-delay: 0.55s; }
+
+.abacus-bead.active {
+    animation: abacusBeadActive 0.3s ease-out;
+}
+
+/* 俳句ゲームのアニメーション */
+.haiku-word {
+    animation: haikuWordFloat 3s ease-in-out infinite;
+    animation-fill-mode: both;
+}
+
+.haiku-word:nth-child(1) { animation-delay: 0s; }
+.haiku-word:nth-child(2) { animation-delay: 0.5s; }
+.haiku-word:nth-child(3) { animation-delay: 1s; }
+.haiku-word:nth-child(4) { animation-delay: 1.5s; }
+.haiku-word:nth-child(5) { animation-delay: 2s; }
+
+/* クイズゲームのアニメーション */
+.quiz-option {
+    animation: minigameSlideIn 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.quiz-option:nth-child(1) { animation-delay: 0.1s; }
+.quiz-option:nth-child(2) { animation-delay: 0.2s; }
+.quiz-option:nth-child(3) { animation-delay: 0.3s; }
+.quiz-option:nth-child(4) { animation-delay: 0.4s; }
+
+.quiz-option:hover {
+    animation: quizOptionHover 0.3s ease-out;
+}
+
+/* 季節ゲームのアニメーション */
+.season-word {
+    animation: seasonWordPulse 2s ease-in-out infinite;
+    animation-fill-mode: both;
+}
+
+.season-word:nth-child(1) { animation-delay: 0s; }
+.season-word:nth-child(2) { animation-delay: 0.3s; }
+.season-word:nth-child(3) { animation-delay: 0.6s; }
+.season-word:nth-child(4) { animation-delay: 0.9s; }
+.season-word:nth-child(5) { animation-delay: 1.2s; }
+
+/* スコア更新のアニメーション */
+.game-score span {
+    transition: all 0.3s ease;
+}
+
+.game-score span.updated {
+    animation: scoreUpdate 0.6s ease-out;
+}
+
+/* ゲーム結果のアニメーション */
+.game-result {
+    animation: gameResultAppear 1s ease-out;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .minigame-container {
+        padding: 10px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    
+    .minigame-content {
+        padding: 20px;
+        margin: 10px 0;
+        max-width: 100%;
+    }
+    
+    .minigame-title {
+        font-size: 28px;
+    }
+    
+    .minigame-subtitle {
+        font-size: 14px;
+    }
+    
+    .abacus-beads {
+        gap: 6px;
+    }
+    
+    .abacus-bead {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .haiku-words, .season-words {
+        gap: 8px;
+    }
+    
+    .haiku-word, .season-word {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    .game-input {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .game-input input {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .haiku-input textarea {
+        max-width: 100%;
+    }
+    
+    .season-input {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .season-input select {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .minigame-container {
+        padding: 5px;
+    }
+    
+    .minigame-content {
+        padding: 15px;
+        margin: 5px 0;
+    }
+    
+    .minigame-title {
+        font-size: 24px;
+    }
+    
+    .minigame-subtitle {
+        font-size: 12px;
+    }
+    
+    .abacus-bead {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .haiku-word, .season-word {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}

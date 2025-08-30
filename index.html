@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>京都算盤 - 和風計算機</title>
+    <meta name="description" content="京都の伝統と美しさを表現した和風計算機。算盤、俳句、季節感を楽しめる独自機能付き。">
+    <meta name="keywords" content="京都,算盤,計算機,和風,俳句,季節,伝統">
+    <link rel="stylesheet" href="styles/kyoto-calculator.css">
+</head>
+<body>
+    <div class="calculator">
+        <div class="decoration"></div>
+        <h1 class="title">京都算盤</h1>
+        
+        <!-- 京都の季節・暦表示 -->
+        <div class="season-display">
+            <div class="season-info">
+                <span class="season-text" id="seasonText">春の京都</span>
+                <span class="date-text" id="dateText">令和6年 弥生</span>
+            </div>
+        </div>
+        
+        <!-- 計算結果表示エリア -->
+        <div class="display">
+            <div class="previous" id="previous"></div>
+            <div class="current" id="current">0</div>
+            <div class="haiku-result" id="haikuResult"></div>
+        </div>
+        
+        <!-- モード選択ボタン -->
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="setMode('normal')" id="normalMode">通常</button>
+            <button class="mode-btn" onclick="setMode('wasan')" id="wasanMode">和算</button>
+            <button class="mode-btn" onclick="setMode('kyoto')" id="kyotoMode">京都</button>
+        </div>
+        
+        <!-- 基本計算ボタン -->
+        <div class="buttons">
+            <button class="btn clear" onclick="clearAll()" aria-label="全クリア">C</button>
+            <button class="btn clear" onclick="deleteLast()" aria-label="一文字削除">⌫</button>
+            <button class="btn operator" onclick="appendOperator('/')" aria-label="割り算">÷</button>
+            <button class="btn operator" onclick="appendOperator('*')" aria-label="掛け算">×</button>
+            
+            <button class="btn" onclick="appendNumber('7')" aria-label="7">7</button>
+            <button class="btn" onclick="appendNumber('8')" aria-label="8">8</button>
+            <button class="btn" onclick="appendNumber('9')" aria-label="9">9</button>
+            <button class="btn operator" onclick="appendOperator('-')" aria-label="引き算">-</button>
+            
+            <button class="btn" onclick="appendNumber('4')" aria-label="4">4</button>
+            <button class="btn" onclick="appendNumber('5')" aria-label="5">5</button>
+            <button class="btn" onclick="appendNumber('6')" aria-label="6">6</button>
+            <button class="btn operator" onclick="appendOperator('+')" aria-label="足し算">+</button>
+            
+            <button class="btn" onclick="appendNumber('1')" aria-label="1">1</button>
+            <button class="btn" onclick="appendNumber('2')" aria-label="2">2</button>
+            <button class="btn" onclick="appendNumber('3')" aria-label="3">3</button>
+            <button class="btn equals" onclick="calculate()" aria-label="計算実行">=</button>
+            
+            <button class="btn span-2" onclick="appendNumber('0')" aria-label="0">0</button>
+            <button class="btn" onclick="appendNumber('.')" aria-label="小数点">.</button>
+        </div>
+        
+        <!-- 京都モード専用ボタン -->
+        <div class="kyoto-buttons" id="kyotoButtons" style="display: none;">
+            <button class="btn kyoto-btn" onclick="calculateTempleSteps()" aria-label="寺の階段数を計算">
+                寺の階段
+            </button>
+            <button class="btn kyoto-btn" onclick="calculateTeaPrice()" aria-label="茶の価格を計算">
+                茶の価格
+            </button>
+            <button class="btn kyoto-btn" onclick="calculateKimono()" aria-label="着物の値段を計算">
+                着物の値段
+            </button>
+            <button class="btn kyoto-btn" onclick="calculateGarden()" aria-label="庭園の面積を計算">
+                庭園の面積
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScriptファイルの読み込み -->
+    <script src="js/calculator.js"></script>
+    <script src="js/kyoto-features.js"></script>
+    <script src="js/minigame.js"></script>
+</body>
+</html>

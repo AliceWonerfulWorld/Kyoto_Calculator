@@ -1,0 +1,41 @@
+{
+  "name": "kyoto-calculator",
+  "version": "1.0.0",
+  "description": "京都の伝統と美しさを表現した和風計算機。算盤、俳句、季節感を楽しめる独自機能付き。",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'Build completed'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "calculator",
+    "kyoto",
+    "japanese",
+    "traditional",
+    "abacus",
+    "haiku",
+    "seasonal"
+  ],
+  "author": "京都算盤開発チーム",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/kyoto-calculator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/kyoto-calculator/issues"
+  },
+  "homepage": "https://github.com/your-username/kyoto-calculator#readme",
+  "devDependencies": {},
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
